@@ -1,121 +1,109 @@
-# Keymap for 5 rows Helix keyboard
+# The Default Helix Layout
+## 配列
 
-本キーマップは、Helix キーボードの5行版専用のキーマップです。
+### Qwerty配列
 
-普通のキーボード使用者が、Helix キーボードを使うときになるべく違いが少なく戸惑いが少なくなるように意図したキーマップです。（意図通り成功しているかどうかは使用する人の判断で、、、)
+```
+ ,-----------------------------------------.             ,-----------------------------------------.
+ |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Del  |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Tab  |   Q  |   W  |   E  |   R  |   T  |             |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Ctrl |   A  |   S  |   D  |   F  |   G  |             |   H  |   J  |   K  |   L  |   ;  |  '   |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ | Shift|   Z  |   X  |   C  |   V  |   B  |   [  |   ]  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |Adjust| Esc  | Alt  | GUI  | EISU |Lower |Space |Space |Raise | KANA | Left | Down |  Up  |Right |
+ `-------------------------------------------------------------------------------------------------'
+```
 
-## キー配置
-以下に、Qwerty配列時の、文字配列の図を示します。
+他の配列(Colemak,Dvorak)は、[readme.md](readme.md) を参照
 
-![fig1](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/827632dda7db87cf88d41a0d3b476c5962c29213/helix-five_rows_r3.png)
+## コンパイルの仕方
 
-## レイヤー
+コンパイルは、qmk_firmware のトップディレクトリで行います。
 
-|優先順位|番号|名称|内容|
-| ---- | ---- | --- | --- |
-|高い|9|Adjust|機能キー（紫）|
-||8|KFunction|テンキーパッド用ファンクションキー類（青）|
-||7|Extra char|記号類（赤）|
-||6|Function|ファンクションキー類（青）|
-||3|Keypad|テンキーパッド配列|
-||2|Dvorak|Dvorak配列|
-||1|Colemak|Colemak配列|
-|低い|0|Qwerty|QWERTY配列（ベース）|
+```
+$ cd qmk_firmware
+```
+qmk_firmwareでは各キーボードのコンパイルは、`<キーボード名>:<キーマップ名>`という指定で行います。
 
-Qwerty/Colemak/Dvorak/Keypad の各レイヤーは、後述する、Ajuestレイヤーの キーによる選択で、いずれか一つだけが有効になり、標準のキーマップとなります。
+```
+$ make helix:default
+```
 
-Function レイヤーは、下段両端の4つのFnキーのどれかひとつを押している間だけ有効になり、矢印キー等のナビゲーションキーや F1, F2, ...F12キーなどが配置されています。  
-上の図の青色の刻印のキーのあるレイヤーです。
+キーボードへの書き込みまで同時に行うには下記のように`:avrdude`を付けます。
 
-Extra レイヤーは、下段中央部の Enter キーか BS キーを一定時間(0.2秒)以上押していると押している間だけ有効になり、'+=-_[]{}' の 8つの記号と「英数」キー、「かな」キーが配置されています。
-このため、Enter/BS キーで Enter/BS を入力するには、Enter/BSキーを押して短時間ですぐ離してください。  
-上の図の赤色の刻印のキーのあるレイヤーです。
+```
+$ make helix:default:avrdude
+```
 
-Adjust レイヤーは、Adjust キーを押している間有効になります。
-Adjust キーは Function レイヤーに有り、下段両端の4つのFnキーのどれか一つを押しながら、下段中央部の Enter キーか BS キーを押すことで Adjust レイヤーが有効になります。  
-Adjust キー (Enter/BS)を押した後は、Fnキーは離して構いません。  
+コンパイル結果と中間生成物を消去したい場合は以下のようにします。
 
-### Adjust レイヤー
-Ajust レイヤーは、LEDのコントロール、Mac/Win モードの切り替え、Qwerty配列, Colemak配列, Dvorak配列, TenkeyPad配列の切り替えが行えます。
+```
+$ make helix:default:clean
+```
 
-![fig2](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/827632dda7db87cf88d41a0d3b476c5962c29213/helix-five_rows_r3adj.png)
+## カスタマイズ
 
-### MacモードとWinモード
-キーボードには、Mac モードと、Win モードの二つのモードがあります。
+Helix キーボードを4行版として製作したり、オプションの OLED をつけたり、
+RGB バックライトまたは、RGB Underglow をつけた場合は、
+`qmk_firmware/keyboards/helix/rev2/keymaps/default/rules.mk` の以下の部分を編集して機能を有効化してください。
 
-現在のモードはOLEDにアイコンとして表示されます。
-(以下の指定キーは、Qwerty配列時の文字を使ってキーを表示しています）
+```
+# Helix keyboard customize
+# you can edit follows 7 Variables
+#  jp: 以下の7つの変数を必要に応じて編集します。
+HELIX_ROWS = 5              # Helix Rows is 4 or 5
+OLED_ENABLE = no            # OLED_ENABLE
+LOCAL_GLCDFONT = no         # use each keymaps "helixfont.h" insted of "common/glcdfont.c"
+LED_BACK_ENABLE = no        # LED backlight (Enable WS2812 RGB underlight.)
+LED_UNDERGLOW_ENABLE = no   # LED underglow (Enable WS2812 RGB underlight.)
+LED_ANIMATIONS = yes        # LED animations
+IOS_DEVICE_ENABLE = no      # connect to IOS device (iPad,iPhone)
 
-|コマンド|指定キー|コード|
-| ---- | ---- | --- |
-|Macモード|Adjust + g(Qwerty)|AG_NORM|
-|        |Adjust + h(Qwerty)|       |
-|Winモード|Adjust + t(Qwerty)|AG_SWAP|
-|        |Adjust + y(Qwerty)|       |
+```
 
-Mac モードと Win モードでは、AltキーとWin(GUI)キーが入れ替わります。
+## 4行版Helix に対応する
 
-Mac モードでは、Extra レイヤー の「英数」キーと「かな」キーで英語モードと日本語モードの切り替えができます。
+rules.mk の下記の部分を編集して 5 を 4 に変更してください。
 
-Winモードでは、該当のキーはどちらも共に Alt + `（日本語IMEの切り替え）として入力されます。
+```
+HELIX_ROWS = 4              # Helix Rows is 4 or 5
+```
 
-### LEDコントロール
+## RGB バックライトを有効にする
 
-バックライトやUnderglowをコントロールするにはAdjustレイヤーにある機能キーを使います。
-(以下の指定キーは、Qwerty配列時の文字を使ってキーを表示しています）
+rules.mk の下記の部分を編集して no を yes に変更してください。
 
-|コマンド|指定キー|コード|
-| ---- | ---- | --- |
-|オン／オフ|Adjust + e(Qwerty)|RGB_TOG|
-|      |Adjust + i(Qwerty)|       |
-|モード切り替え|Adjust + d(Qwerty) |RGB_MOD|
-|           |Adjust + k(Qwerty)|       |
-|色相 +|Adjust + Left Control|RGB_HUI|
-|     |Adjust + Right Control|       |
-|色相 -|Adjust + Left Shift  |RGB_HUD|
-|     |Adjust + Right Shift  |       |
-|彩度 +|Adjust + ;(Qwerty)   |RGB_SAI|
-|     |Adjust + a(Qwerty)   |       |
-|彩度 -|Adjust + z(Qwerty)  |RGB_SAD|
-|     |Adjust + /(Qwerty)  |       |
-|明度 +|Adjust + s(Qwerty)  |RGB_VAI|
-|     |Adjust + l(Qwerty)  |       |
-|明度 -|Adjust + x(Qwerty)  |RGB_VAD|
-|     |Adjust + >(Qwerty)  |       |
-|リセット|Adjust + w|RGBRST|
+```
+LED_BACK_ENABLE = yes        # LED backlight (Enable WS2812 RGB underlight.)
+```
 
-### 文字配列選択
-Qwerty, Colemak, Dvorak, Keypad それぞれの文字配列の選択は以下のキーを使います。
+## RGB Underglow を有効にする
 
-|選択配列|指定キー|
-| ---- | ---- |
-|Qwerty | Adjust + 5 |
-|       | Adjust + 6 |
-|Calemak| Adjust + 4 |
-|       | Adjust + 7 |
-|Dvorak | Adjust + 3 |
-|       | Adjust + 8 |
-|Keypad | Adjust + 2 |
-|       | Adjust + 9 |
+rules.mk の下記の部分を編集して no を yes に変更してください。
+```
+LED_UNDERGLOW_ENABLE = yes   # LED underglow (Enable WS2812 RGB underlight.)
+```
 
-## テンキーパッドのキー配置
-以下に、テンキーパッド配列時の、文字配列の図を示します。
+## OLEDを有効にする
 
-![fig3](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/827632dda7db87cf88d41a0d3b476c5962c29213/helix-five_rows_r3key.png)
+rules.mk の下記の部分を編集して no を yes に変更してください。
+```
+OLED_ENABLE = yes            # OLED_ENABLE
+```
 
-図でわかるように、テンキーと F1,F2..F12 のキー入力ができる配列です。  
-F12キーは一定時間(0.2秒)以上押していると KFunc キーとして働き、押している間は、青色の刻印のキー入力を行えます。  
-F12 そのものを入力するときは押して短時間ですぐ離してください。  
-F12キーを押しているときは、F11キー は Adjust キーとなり、Adjust レイヤーが有効になります。
-これによって、Qwerty 配列などに戻すことが可能になります。
+## iPad/iPhoneサポートを有効にする。
 
-## 備考
-本キーマップは、通常のキーボードの主要部分のホームポジション周辺をなるべくそのまま踏襲する方針で作成しました。
-変更点は以下の通りです。
+rules.mk の下記の部分を編集して no を yes に変更してください。
+RBG Underglow や RGBバックライトの輝度を抑えて、iPad, iPhone にも接続できるようになります。
 
- * 右手小指により多く割り当たっていた5つの記号と左上の1つの記号を中央に集め人差し指の担当とする。
- * Enter キーを親指担当として中央手前に移動。
- * Control キーを左右共にホームポジションの行に移動。
- * 左手親指に BackSpace キーを割り当てる。
+```
+IOS_DEVICE_ENABLE = no      # connect to IOS device (iPad,iPhone)
+```
 
-![fig4](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/d6e9af7684c051de4744b9dee9cd96b762bf4e2d/five_rows_making2.jpg)
+## リンク
+
+* さらに詳細は、[こちら helix/Doc/firmware_jp.md](https://github.com/MakotoKurauchi/helix/blob/master/Doc/firmware_jp.md)をご覧ください。
+* [Helix top](https://github.com/MakotoKurauchi/helix)

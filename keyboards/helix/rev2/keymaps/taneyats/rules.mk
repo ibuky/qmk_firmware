@@ -3,15 +3,11 @@
 #   change to "no" to disable the options, or define them in the Makefile in
 #   the appropriate keymap folder that will get included automatically
 #
-BOOTMAGIC_ENABLE = no      # Virtual DIP switch configuration(+1000)
+BOOTMAGIC_ENABLE = no       # Virtual DIP switch configuration(+1000)
 MOUSEKEY_ENABLE = no       # Mouse keys(+4700)
 EXTRAKEY_ENABLE = no       # Audio control and System control(+450)
-CONSOLE_ENABLE = no        # Console for debug
+CONSOLE_ENABLE = no         # Console for debug(+400)
 COMMAND_ENABLE = no        # Commands for debug and configuration
-# CONSOLE_ENABLE and COMMAND_ENABLE
-#      yes, no  +1500
-#      yes, yes +3200
-#      no,  yes +400
 NKRO_ENABLE = no            # Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ#nkro-doesnt-work
 BACKLIGHT_ENABLE = no      # Enable keyboard backlight functionality
 MIDI_ENABLE = no            # MIDI controls
@@ -45,15 +41,15 @@ Link_Time_Optimization = no # if firmware size over limit, try this option
 ####  LED_BACK_ENABLE and LED_UNDERGLOW_ENABLE.
 ####    Do not enable these with audio at the same time.
 
-### Helix keyboard 'five_rows' keymap: convenient command line option
-##    make HELIX=<options> helix:five_rows
+### Helix keyboard 'default' keymap: convenient command line option
+##    make HELIX=<options> helix:defualt
 ##    option= oled | back | under | na | ios
 ##    ex.
-##      make HELIX=oled          helix:five_rows
-##      make HELIX=oled,back     helix:five_rows
-##      make HELIX=oled,under    helix:five_rows
-##      make HELIX=oled,back,na  helix:five_rows
-##      make HELIX=oled,back,ios helix:five_rows
+##      make HELIX=oled          helix:defualt
+##      make HELIX=oled,back     helix:defualt
+##      make HELIX=oled,under    helix:defualt
+##      make HELIX=oled,back,na  helix:defualt
+##      make HELIX=oled,back,ios helix:defualt
 ##
 ifneq ($(strip $(HELIX)),)
   ifeq ($(findstring oled,$(HELIX)), oled)
@@ -70,9 +66,6 @@ ifneq ($(strip $(HELIX)),)
   ifeq ($(findstring ios,$(HELIX)), ios)
     IOS_DEVICE_ENABLE = yes
   endif
-  ifeq ($(findstring console,$(HELIX)), console)
-    CONSOLE_ENABLE = yes
-  endif
   $(eval $(call HELIX_CUSTOMISE_MSG))
   $(info )
 endif
@@ -83,9 +76,9 @@ endif
 # $(info )
 
 ifneq ($(strip $(HELIX_ROWS)), 4)
-ifneq ($(strip $(HELIX_ROWS)), 5)
-$(error HELIX_ROWS = $(strip $(HELIX_ROWS)) is unexpected value)
-endif
+  ifneq ($(strip $(HELIX_ROWS)), 5)
+    $(error HELIX_ROWS = $(strip $(HELIX_ROWS)) is unexpected value)
+  endif
 endif
 OPT_DEFS += -DHELIX_ROWS=$(strip $(HELIX_ROWS))
 

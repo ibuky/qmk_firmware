@@ -1,84 +1,143 @@
-# Keymap for 5 rows Helix keyboard
-
-This keymap is only for 5 rows Helix keyboard.
-
+# The Default Helix Layout
 ## Layout
 
-![fig1](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/827632dda7db87cf88d41a0d3b476c5962c29213/helix-five_rows_r3.png)
+### Qwerty
 
-## Layer
+```
+ ,-----------------------------------------.             ,-----------------------------------------.
+ |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Del  |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Tab  |   Q  |   W  |   E  |   R  |   T  |             |   Y  |   U  |   I  |   O  |   P  | Bksp |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Ctrl |   A  |   S  |   D  |   F  |   G  |             |   H  |   J  |   K  |   L  |   ;  |  '   |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ | Shift|   Z  |   X  |   C  |   V  |   B  |   [  |   ]  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |Adjust| Esc  | Alt  | GUI  | EISU |Lower |Space |Space |Raise | KANA | Left | Down |  Up  |Right |
+ `-------------------------------------------------------------------------------------------------'
+```
 
-|Priority|Number|Name|Discription|
+### Colemak
+```
+ ,-----------------------------------------.             ,-----------------------------------------.
+ |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Del  |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Tab  |   Q  |   W  |   F  |   P  |   G  |             |   J  |   L  |   U  |   Y  |   ;  | Bksp |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Ctrl |   A  |   R  |   S  |   T  |   D  |             |   H  |   N  |   E  |   I  |   O  |  '   |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ | Shift|   Z  |   X  |   C  |   V  |   B  |   [  |   ]  |   K  |   M  |   ,  |   .  |   /  |Enter |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |Adjust| Esc  | Alt  | GUI  | EISU |Lower |Space |Space |Raise | KANA | Left | Down |  Up  |Right |
+ `-------------------------------------------------------------------------------------------------'
+```
+
+### Dvorak
+```
+ ,-----------------------------------------.             ,-----------------------------------------.
+ |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Bksp |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Tab  |   '  |   ,  |   .  |   P  |   Y  |             |   F  |   G  |   C  |   R  |   L  | Del  |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ | Ctrl |   A  |   O  |   E  |   U  |   I  |             |   D  |   H  |   T  |   N  |   S  |  /   |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ | Shift|   ;  |   Q  |   J  |   K  |   X  |   [  |   ]  |   B  |   M  |   W  |   V  |   Z  |Enter |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |Adjust| Esc  | Alt  | GUI  | EISU |Lower |Space |Space |Raise | KANA | Left | Down |  Up  |Right |
+ `-------------------------------------------------------------------------------------------------'
+```
+
+## Layers
+
+|Priority|number|name|description|
 | ---- | ---- | --- | --- |
-|high|9|Adjust| keyboard local functions (violet)|
-||8|KFunction| TenkeyPad function keys (bule)|
-||7|Extra char| some charactors (red)|
-||6|Function| function keys (blue)|
-||2|Keypad|TenkeyPad|
-||2|Dvorak|Dvorak|
-||1|Colemak|Colemak|
-|low|0|Qwerty|QWERTY (base)|
+|high|16|Adjust|Functions|
+||4|Raise|Numeric charactors|
+||3|Lower|Other charactors|
+||2|Dvorak|Dvorak leyout|
+||1|Colemak|Colemak leyout|
+|low|0|Qwerty|QWERTY leyout(base)|
 
-### Adjust Layer
+### Lower
+```
+ ,-----------------------------------------.             ,-----------------------------------------.
+ |   ~  |   !  |   @  |   #  |   $  |   %  |             |   ^  |   &  |   *  |   (  |   )  |      |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ |   ~  |   !  |   @  |   #  |   $  |   %  |             |   ^  |   &  |   *  |   (  |   )  |      |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ |      |  F1  |  F2  |  F3  |  F4  |  F5  |             |  F6  |   _  |   +  |   {  |   }  |  |   |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |  F7  |  F8  |  F9  |  F10 |  F11 |  (   |   )  |  F12 |      |      | Home | End  |      |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |      |      |      | Next | Vol- | Vol+ | Play |
+ `-------------------------------------------------------------------------------------------------'
+```
 
-Adjust Layer has keyboard local function keys.
+### Raise
+```
+ ,-----------------------------------------.             ,-----------------------------------------.
+ |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Bksp |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ |   `  |   1  |   2  |   3  |   4  |   5  |             |   6  |   7  |   8  |   9  |   0  | Del  |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ |      |  F1  |  F2  |  F3  |  F4  |  F5  |             |  F6  |   -  |   =  |   [  |   ]  |  \   |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |  F7  |  F8  |  F9  |  F10 |  F11 |      |      |  F12 |      |      |PageDn|PageUp|      |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |      |      |      | Next | Vol- | Vol+ | Play |
+ `-------------------------------------------------------------------------------------------------'
+```
 
-* LED control.
-* Mac/Win mode change.
-* Qwerty/Colemak/Dvorak/TenkeyPad change.
+### Adjust (Lower + Raise)
+```
+ ,-----------------------------------------.             ,-----------------------------------------.
+ |  F1  |  F2  |  F3  |  F4  |  F5  |  F6  |             |  F7  |  F8  |  F9  |  F10 |  F11 |  F12 |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ |      | Reset|RGBRST|      |      |      |             |      |      |      |      |      |  Del |
+ |------+------+------+------+------+------|             |------+------+------+------+------+------|
+ |      |      |      |Aud on|Audoff| Mac  |             | Win  |Qwerty|Colemk|Dvorak|      |      |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |      |      |      |RGB ON| HUE+ | SAT+ | VAL+ |
+ |------+------+------+------+------+------+------+------+------+------+------+------+------+------|
+ |      |      |      |      |      |      |      |      |      |      | MODE | HUE- | SAT- | VAL- |
+ `-------------------------------------------------------------------------------------------------'
+```
 
-![fig2](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/827632dda7db87cf88d41a0d3b476c5962c29213/helix-five_rows_r3adj.png)
+## Customize
 
-### Mac mode and Win mode
+see `qmk_firmware/keyboards/helix/rev2/keymaps/default/rules.mk`
 
-Mac mode swap Alt/Win(GUI) key.
+```
+# Helix keyboard customize
+# you can edit follows 7 Variables
+#  jp: 以下の7つの変数を必要に応じて編集します。
+HELIX_ROWS = 5              # Helix Rows is 4 or 5
+OLED_ENABLE = no            # OLED_ENABLE
+LOCAL_GLCDFONT = no         # use each keymaps "helixfont.h" insted of "common/glcdfont.c"
+LED_BACK_ENABLE = no        # LED backlight (Enable WS2812 RGB underlight.)
+LED_UNDERGLOW_ENABLE = no   # LED underglow (Enable WS2812 RGB underlight.)
+LED_ANIMATIONS = yes        # LED animations
+IOS_DEVICE_ENABLE = no      # connect to IOS device (iPad,iPhone)
 
-|mode|key|code|
-| ---- | ---- | --- |
-|Mac mode|Adjust + g(Qwerty)|AG_NORM|
-|        |Adjust + h(Qwerty)|       |
-|Win mode|Adjust + t(Qwerty)|AG_SWAP|
-|        |Adjust + y(Qwerty)|       |
+```
+## Compile
 
-### LED control
+go to qmk top directory.
+```
+$ cd qmk_firmware
+```
 
-|command|key|code|
-| ---- | ---- | --- |
-|on/off|Adjust + e(Qwerty)|RGB_TOG|
-|      |Adjust + i(Qwerty)|       |
-|change mode|Adjust + d(Qwerty) |RGB_MOD|
-|           |Adjust + k(Qwerty)|       |
-|HUE +|Adjust + Left Control|RGB_HUI|
-|     |Adjust + Right Control|       |
-|HUE -|Adjust + Left Shift  |RGB_HUD|
-|     |Adjust + Right Shift  |       |
-|SAT +|Adjust + ;(Qwerty)   |RGB_SAI|
-|     |Adjust + a(Qwerty)   |       |
-|SAT -|Adjust + z(Qwerty)  |RGB_SAD|
-|     |Adjust + /(Qwerty)  |       |
-|Bright +|Adjust + s(Qwerty)  |RGB_VAI|
-|     |Adjust + l(Qwerty)  |       |
-|Bright -|Adjust + x(Qwerty)  |RGB_VAD|
-|     |Adjust + >(Qwerty)  |       |
-|reset|Adjust + w|RGBRST|
+build
+```
+$ make helix:default
+```
 
-### Qwerty, Colemak, Dvorak, TenkeyPad selection
+flash to keyboard
+```
+$ make helix:default:avrdude
+```
 
-|char layout|key|
-| ---- | ---- |
-|Qwerty | Adjust + 5 |
-|       | Adjust + 6 |
-|Calemak| Adjust + 4 |
-|       | Adjust + 7 |
-|Dvorak | Adjust + 3 |
-|       | Adjust + 8 |
-|Keypad | Adjust + 2 |
-|       | Adjust + 9 |
+## Link
+* more detail wrote in Japanese [helix/Doc/firmware_jp.md](https://github.com/MakotoKurauchi/helix/blob/master/Doc/firmware_jp.md)
+* [Helix top](https://github.com/MakotoKurauchi/helix)
 
-## TenkeyPad layout
-
-![fig3](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/827632dda7db87cf88d41a0d3b476c5962c29213/helix-five_rows_r3key.png)
-
-## Note
-
-![fig4](https://gist.github.com/mtei/c81a3688206aa50996339cb9ced4751d/raw/d6e9af7684c051de4744b9dee9cd96b762bf4e2d/five_rows_making2.jpg)
