@@ -74,7 +74,6 @@ endif
 #   jp: コンパイル時にカスタマイズの状態を表示したい時はコメントをはずします。
 # $(eval $(call HELIX_CUSTOMISE_MSG))
 # $(info )
-
 ifneq ($(strip $(HELIX_ROWS)), 4)
   ifneq ($(strip $(HELIX_ROWS)), 5)
     $(error HELIX_ROWS = $(strip $(HELIX_ROWS)) is unexpected value)
