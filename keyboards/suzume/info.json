@@ -1,0 +1,12 @@
+{
+  "keyboard_name": "suzume",
+  "url": "https://www.taneyats.com",
+  "maintainer": "qmk",
+  "width": 12,
+  "height": 4,
+  "layouts": {
+    "LAYOUT": {
+        "layout": [{"label":"Tab", "x":0, "y":0}, {"label":"F1", "x":1, "y":0}, {"label":"F2", "x":2, "y":0}, {"label":"F3", "x":3, "y":0}, {"label":"F4", "x":4, "y":0}, {"label":"F5", "x":5, "y":0}, {"label":"F6", "x":6, "y":0}, {"label":"F7", "x":7, "y":0}, {"label":"F8", "x":8, "y":0}, {"label":"F9", "x":9, "y":0}, {"label":"F10", "x":10, "y":0}, {"label":"", "x":11, "y":0}, {"label":"Ctrl", "x":0, "y":1}, {"label":"F11", "x":1, "y":1}, {"label":"F12", "x":2, "y":1}, {"label":"D", "x":3, "y":1}, {"label":"F", "x":4, "y":1}, {"label":"", "x":5, "y":1}, {"label":"[]", "x":6, "y":1}, {"label":"", "x":7, "y":1}, {"label":"", "x":8, "y":1}, {"label":"", "x":9, "y":1}, {"label":"~", "x":10, "y":1}, {"label":"\\", "x":11, "y":1}, {"label":"Shift", "x":0, "y":2}, {"label":"", "x":1, "y":2}, {"label":"X", "x":2, "y":2}, {"label":"C", "x":3, "y":2}, {"label":"V", "x":4, "y":2}, {"label":"", "x":5, "y":2}, {"label":"()", "x":6, "y":2}, {"label":"Hm", "x":7, "y":2}, {"label":"VolU", "x":8, "y":2}, {"label":"VolD", "x":9, "y":2}, {"label":"En", "x":10, "y":2}, {"label":"Return", "x":11, "y":2}, {"label":"Alt", "x":4, "y":5.5}, {"label":"Space", "x":5, "y":5.5}, {"label":"Lower", "x":4.25, "y":11}, {"label":"Kana", "x":5.25, "y":11}]
+    }
+}
+}
