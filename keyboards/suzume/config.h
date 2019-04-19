@@ -34,8 +34,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // ROWS: Top to bottom, COLS: Left to right
 
-#define MATRIX_ROW_PINS {D0,D1,F6,F7}
-#define MATRIX_COL_PINS {F0,F1,E6,C7,C6,B7,D4,B1,B0,B5,B4,D7}
+#define MATRIX_ROW_PINS {B1,B3,B2,B6}
+#define MATRIX_COL_PINS {D1,D0,D4,C6,D7,E6,B4,B5,F4,F5,F6,F7}
 #define UNUSED_PINS
 
 //#define BACKLIGHT_PIN B6
@@ -56,7 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Backlight configuration
  */
-//#define BACKLIGHT_LEVELS 4
+#define BACKLIGHT_LEVELS 0
 
 /*
  * Feature disable options
