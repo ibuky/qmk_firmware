@@ -12,14 +12,6 @@ enum avion_layers {
   _FL   // Function
 };
 
-#define _BL 0
-#define _LL 1
-#define _RL 2
-#define _FL 3
-
-#define LOWER MO(_LL)
-#define RAISE MO(_RL)
-
 #define _______ KC_TRNS // Transparent key
 
 enum custom_keycodes {
@@ -28,9 +20,12 @@ enum custom_keycodes {
     FUNC,
     KANA,
     EMOJI,
+    LED_TGL,
 };
 
 bool is_active_emoji_kb = false;
+bool is_active_led_flash = true;
+void change_txrx_led_state(char* led, bool state);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   /* Base Layer
@@ -76,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    _______,
     _______, KC_LT,   KC_GT,   KC_LCBR, KC_RCBR, _______, _______, KC_EQL,  KC_PLUS, KC_MINS, _______, KC_QUOT,
     _______, _______, _______, KC_QUOT, KC_DQUO, _______, _______, _______, _______, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
+    _______, _______, _______, _______, _______, _______, FUNC,    _______, _______, _______, _______, _______,
                                         KC_LBRC,                   KC_RBRC, \
                                         KC_LT,        _______,     KC_GT
   ),
@@ -89,7 +84,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |------+------+------+------+------+------|------+------+------+------+------+------|
    * |      |  F11 |  F12  |     |      |      |      |      |      |      |      |      |
    * |------+------+------+------+------+------+------+------+------+------+------+------|
-   * |      |      |      |      |      |      |      |      | Home | Vol- | Vol+ | End  |
+   * |      |      |      |      |      | FUNC |      |      | Home | Vol- | Vol+ | End  |
    * `-----------------------------------------------------------------------------------'
    *                                    | {    | }    |
    *                                 +---------+---------+
@@ -100,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC, KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL,
       _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_BSLS,
       _______, KC_F11,  KC_F12,  _______, _______, _______, _______, _______, _______, _______, _______, _______,
-      _______, _______, _______, _______, _______, _______, _______, _______, KC_HOME, KC_VOLD, KC_VOLU, KC_END,
+      _______, _______, _______, _______, _______, FUNC,    _______, _______, KC_HOME, KC_VOLD, KC_VOLU, KC_END,
                                           KC_LCBR,                   KC_RCBR,
                                           KC_HOME,      _______,     KC_END
   ),
@@ -115,7 +110,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    * |------+------+------+------+------+------+------+------+------+------+------+------|
    * |      |      |      |      |      |      |      |      |      |      |      |      |
    * `----------------------------------+------+------+----------------------------------'
-   *                                    |      |      |
+   *                                    |LEDtgl|      |
    *                                 +---------+---------+
    *                                 |     | SLEEP|      |
    *                                 `-------------------'
@@ -125,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                                        _______,                   _______,
+                                        LED_TGL,                   _______,
                                         _______,      KC_SLEP,     _______
   ),
 };
@@ -180,25 +175,47 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           }
         }
         break;
+
+      // Toggle LED flash function (default to on)
+      case LED_TGL:
+        if (record->event.pressed) is_active_led_flash = !is_active_led_flash;
+        break;
+  }
+
+  if (is_active_led_flash && record->event.pressed) {
+    if (record->event.key.col < 6) {
+      change_txrx_led_state("TX", false);
+      _delay_ms(20);
+      change_txrx_led_state("TX", true);
+    } else {
+      change_txrx_led_state("RX", false);
+      _delay_ms(20);
+      change_txrx_led_state("RX", true);
+    }
+  } else {
+    if (record->event.key.col < 6) {
+      change_txrx_led_state("TX", false);
+    } else {
+      change_txrx_led_state("RX", false);
+    }
   }
   return true;
 };
 
-
-void change_txrx_led_state(char led, bool state) {
+void change_txrx_led_state(char* led, bool state) {
   if (strcmp(led, "TX") == 0) {
+    // right side
+    if (state) {
+      PORTB &= ~(1<<0);
+    } else {
+      PORTB |= (1<<0);
+    }
+  } else if (strcmp(led, "RX") == 0) {
     // left side
     if (state) {
       PORTD &= ~(1<<5);
     } else {
       PORTD |= (1<<5);
-    }
-  } else if (strcmp(led, "RX") == 0) {
-    // right side
-    if (state) {
-      PORTB |= (1<<0);
-    } else {
-      PORTB &= ~(1<<0);
     }
   }
 }
