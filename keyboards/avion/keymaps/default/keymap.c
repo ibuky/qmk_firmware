@@ -20,10 +20,10 @@ enum custom_keycodes {
     FUNC,
     KANA,
     EMOJI,
-    LED_TGL,
+    CTLSPC,
+    LEDTGL,
 };
 
-bool is_active_emoji_kb = false;
 bool is_active_led_flash = true;
 void change_txrx_led_state(char* led, bool state);
 
@@ -47,7 +47,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_E,   KC_R,   KC_T,  KC_Y,  KC_U, KC_I,    KC_O,    KC_P,     KC_BSPC,
     KC_LCTL, KC_A,    KC_S,    KC_D,   KC_F,   KC_G,  KC_H,  KC_J, KC_K,    KC_L,    KC_SCLN,  KC_MINS,
     KC_LSFT, KC_Z,    KC_X,    KC_C,   KC_V,   KC_B,  KC_N,  KC_M, KC_COMM, KC_DOT,  KC_SLSH,  KC_ENT,
-    KC_ESC,  KC_LGUI, KC_LALT, KC_APP, KC_SPC, LOWER, RAISE, KANA, KC_LEFT, KC_DOWN, KC_UP,    KC_RGHT,
+    KC_ESC,  KC_LGUI, KC_LALT, CTLSPC, KC_SPC, LOWER, RAISE, KANA, KC_LEFT, KC_DOWN, KC_UP,    KC_RGHT,
                                        KC_LPRN,              KC_RPRN,
                                        KC_QUOT,    EMOJI,    KC_BSPC
   ),
@@ -120,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
-                                        LED_TGL,                   _______,
+                                        LEDTGL,                   _______,
                                         _______,      KC_SLEP,     _______
   ),
 };
@@ -128,77 +128,81 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 /* Macro settings */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch(keycode) {
-      /* Move to Lower Layer */
-      case LOWER:
-        if (record->event.pressed) {
-          layer_on(_LL);
-        } else {
-          layer_off(_LL);
-        }
-        break;
+  switch(keycode) {
+    /* Move to Lower Layer */
+    case LOWER:
+      if (record->event.pressed) {
+        layer_on(_LL);
+      } else {
+        layer_off(_LL);
+      }
+      break;
 
-      /* Move to Raise Layer */
-      case RAISE:
-        if (record->event.pressed) {
-          layer_on(_RL);
-        } else {
-          layer_off(_RL);
-        }
-        break;
+    /* Move to Raise Layer */
+    case RAISE:
+      if (record->event.pressed) {
+        layer_on(_RL);
+      } else {
+        layer_off(_RL);
+      }
+      break;
 
-      /* Move to Function Layer */
-      case FUNC:
-        if (record->event.pressed) {
-          layer_on(_FL);
-        } else {
-          layer_off(_FL);
-        }
-        break;
+    /* Move to Function Layer */
+    case FUNC:
+      if (record->event.pressed) {
+        layer_on(_FL);
+      } else {
+        layer_off(_FL);
+      }
+      break;
 
-      // Toggle IME input mode (Hiragana <-> Halfwidth Eisu)
-      case KANA:
-        if (record->event.pressed) {
-          SEND_STRING(SS_LALT("`"));  // Alt + `
-        }
-        break;
+    // Toggle IME input mode (Hiragana <-> Halfwidth Eisu)
+    case KANA:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT("`"));  // Alt + `
+      }
+      break;
 
-      // Launch Emoji keyboard
-      case EMOJI:
-        if (record->event.pressed) {
-          if (is_active_emoji_kb) {
-            // Hit Esc key to exit Emoji keyboard (without this, next launch should fail)
-            tap_code(KC_ESC);
-          } else {
-            SEND_STRING(SS_LGUI(";"));  // Win + ;
-            is_active_emoji_kb = !is_active_emoji_kb;
-          }
-        }
-        break;
+    // Launch Emoji keyboard
+    case EMOJI:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LGUI(";"));  // Win + ;
+      }
+      break;
 
-      // Toggle LED flash function (default to on)
-      case LED_TGL:
-        if (record->event.pressed) is_active_led_flash = !is_active_led_flash;
-        break;
+    // Ctrl + Space
+    case CTLSPC:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTRL(" "));
+      }
+      break;
+
+    // Toggle LED flash function (default to on)
+    case LEDTGL:
+      if (record->event.pressed) is_active_led_flash = !is_active_led_flash;
+      break;
   }
 
-  if (is_active_led_flash && record->event.pressed) {
-    if (record->event.key.col < 6) {
-      change_txrx_led_state("TX", false);
-      _delay_ms(20);
-      change_txrx_led_state("TX", true);
+  #ifdef PROMICRO_LED_ENABLE
+    if (is_active_led_flash && record->event.pressed) {
+      if (record->event.key.col < 6) {
+        change_txrx_led_state("TX", false);
+        _delay_ms(20);
+        change_txrx_led_state("TX", true);
+      } else {
+        change_txrx_led_state("RX", false);
+        _delay_ms(20);
+        change_txrx_led_state("RX", true);
+      }
     } else {
-      change_txrx_led_state("RX", false);
-      _delay_ms(20);
-      change_txrx_led_state("RX", true);
+      if (record->event.key.col < 6) {
+        change_txrx_led_state("TX", false);
+      } else {
+        change_txrx_led_state("RX", false);
+      }
     }
-  } else {
-    if (record->event.key.col < 6) {
-      change_txrx_led_state("TX", false);
-    } else {
-      change_txrx_led_state("RX", false);
-    }
-  }
+  #endif
+
   return true;
 };
 
